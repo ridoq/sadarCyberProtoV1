@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SadarCyber AI — Mobile UI Concept</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f6f8; --bg-card:#ffffff; --bg-soft:#f8f9fb;
+  --fg:#0f172a; --fg-2:#334155; --muted:#64748b; --muted-2:#94a3b8;
+  --border:#e8ebf0; --border-soft:#f1f3f6;
+  --primary:#4f46e5; --primary-soft:#eef2ff; --primary-dim:#c7d2fe;
+  --danger:#dc2626; --danger-soft:#fef2f2; --danger-dim:#fecaca;
+  --success:#059669; --success-soft:#ecfdf5; --success-dim:#bbf7d0;
+  --warn:#d97706; --warn-soft:#fffbeb; --warn-dim:#fde68a;
+  --info:#2563eb; --info-soft:#eff6ff; --info-dim:#bfdbfe;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{font-family:'Inter',sans-serif;background:#eceef2;color:var(--fg);-webkit-font-smoothing:antialiased}
+body{min-height:100vh;padding:60px 20px}
+.stage{max-width:1200px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:60px}
+.section-head{width:100%;max-width:375px;display:flex;align-items:center;gap:14px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.section-head .num{background:var(--fg);color:#fff;padding:4px 8px;font-weight:600;border-radius:4px;font-size:10px}
+.section-head .line{flex:1;height:1px;background:var(--border)}
+
+/* Phone frame — minimalis */
+.phone{width:375px;height:812px;background:#0f172a;border-radius:44px;padding:8px;position:relative;flex-shrink:0;
+  box-shadow:0 1px 2px rgba(0,0,0,.04),0 30px 60px rgba(15,23,42,.12),0 10px 20px rgba(15,23,42,.06)}
+.phone-inner{width:100%;height:100%;background:var(--bg);border-radius:36px;overflow:hidden;position:relative}
+.notch{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:110px;height:28px;background:#0f172a;border-radius:16px;z-index:100}
+
+/* Fixed Status Bar & Bottom Nav */
+.status-bar{position:absolute;top:0;left:0;right:0;height:50px;padding:18px 28px 0;display:flex;justify-content:space-between;align-items:center;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;z-index:60;color:var(--fg);background:var(--bg)}
+.phone.login .status-bar{background:var(--bg-card)}
+.phone.login .screen{background:var(--bg-card)}
+.status-bar .icons{display:flex;gap:6px;align-items:center}
+
+.bottom-nav{position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:12px 20px 24px;display:flex;justify-content:space-around;align-items:center;z-index:60}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--muted-2);font-size:10px;font-weight:600;cursor:pointer}
+.nav-item.active{color:var(--primary)}
+.nav-item .nav-icon{width:22px;height:22px;display:flex;align-items:center;justify-content:center}
+
+/* Scrollable Screen */
+.screen{width:100%;height:100%;overflow-y:auto;position:relative;scrollbar-width:none;background:var(--bg);padding-top:50px}
+.screen::-webkit-scrollbar{display:none}
+.screen-content{padding:8px 20px 100px}
+
+/* ============ LOGIN ============ */
+.login-screen{min-height:100%;display:flex;flex-direction:column;padding:20px 28px 32px;position:relative}
+.login-logo{display:flex;flex-direction:column;align-items:center;margin-bottom:40px;margin-top:20px}
+.logo-mark{width:64px;height:64px;border-radius:20px;background:var(--primary);display:flex;align-items:center;justify-content:center;margin-bottom:20px;box-shadow:0 12px 32px rgba(79,70,229,.25)}
+.brand-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;letter-spacing:-.02em;margin-bottom:10px;color:var(--fg)}
+.ai-badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;background:var(--primary-soft);color:var(--primary);padding:3px 7px;border-radius:5px;margin-left:6px;vertical-align:middle;font-weight:600;letter-spacing:.05em}
+.brand-tagline{font-size:13px;color:var(--muted);text-align:center;max-width:260px;line-height:1.6}
+.login-form{margin-top:8px}
+.field-group{margin-bottom:18px}
+.field-label{display:block;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:var(--fg-2);margin-bottom:8px;letter-spacing:.01em}
+.field-input{width:100%;background:var(--bg-soft);border:1px solid var(--border);border-radius:12px;padding:14px 16px;color:var(--fg);font-family:'Inter',sans-serif;font-size:15px;outline:none;transition:border-color .15s}
+.field-input:focus{border-color:var(--primary);background:#fff}
+.btn-primary{width:100%;background:var(--primary);color:#fff;border:none;padding:15px;border-radius:12px;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 20px rgba(79,70,229,.2);margin-top:8px}
+.login-footer{margin-top:auto;text-align:center;font-size:12px;color:var(--muted);padding-top:24px;line-height:1.6}
+.login-footer .instansi{font-weight:700;color:var(--fg-2);letter-spacing:.02em;font-size:13px;display:block;margin-top:4px}
+
+/* ============ DASHBOARD ============ */
+.dash-header{display:flex;align-items:center;justify-content:space-between;padding:8px 0 24px}
+.user-info{display:flex;align-items:center;gap:12px}
+.avatar{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#6366f1,#4f46e5);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:#fff;position:relative;font-family:'Plus Jakarta Sans',sans-serif}
+.avatar.online::after{content:'';position:absolute;bottom:-2px;right:-2px;width:12px;height:12px;background:var(--success);border:2px solid #fff;border-radius:50%}
+.user-text .greeting{font-size:11px;color:var(--muted);font-weight:500;letter-spacing:.02em}
+.user-text .name{font-size:15px;font-weight:700;display:flex;align-items:center;gap:6px;margin-top:2px;color:var(--fg);font-family:'Plus Jakarta Sans',sans-serif}
+.lvl-badge{font-family:'JetBrains Mono',monospace;font-size:9px;background:var(--primary-soft);color:var(--primary);padding:2px 6px;border-radius:4px;font-weight:600}
+.icon-btn{width:40px;height:40px;border-radius:12px;background:var(--bg-card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer}
+.icon-btn .dot{position:absolute;top:8px;right:8px;width:8px;height:8px;background:var(--danger);border-radius:50%;border:2px solid var(--bg-card)}
+
+.mission-hero{background:var(--bg-card);border:1px solid var(--border);border-radius:18px;padding:20px;margin-bottom:24px;position:relative;overflow:hidden}
+.mission-tag{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;background:var(--primary-soft);color:var(--primary);padding:4px 8px;border-radius:6px;margin-bottom:14px;font-weight:600;letter-spacing:.08em}
+.mission-hero h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;line-height:1.25;margin-bottom:8px;letter-spacing:-.02em;color:var(--fg)}
+.mission-hero p{font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.55}
+.progress-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:11px}
+.progress-row .label{color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;font-weight:500}
+.progress-row .value{font-weight:600;color:var(--primary);font-family:'JetBrains Mono',monospace;font-size:11px}
+.progress-bar{height:6px;background:var(--border-soft);border-radius:3px;overflow:hidden;margin-bottom:16px}
+.progress-fill{height:100%;background:var(--primary);border-radius:3px;width:65%}
+.continue-btn{width:100%;background:var(--primary);color:#fff;border:none;padding:13px;border-radius:10px;font-weight:600;font-size:14px;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 4px 12px rgba(79,70,229,.2)}
+
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:16px;position:relative}
+.stat-card .stat-icon{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.stat-card.danger .stat-icon{background:var(--danger-soft);color:var(--danger)}
+.stat-card.primary .stat-icon{background:var(--primary-soft);color:var(--primary)}
+.stat-card.warn .stat-icon{background:var(--warn-soft);color:var(--warn)}
+.stat-card.success .stat-icon{background:var(--success-soft);color:var(--success)}
+.stat-value{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;letter-spacing:-.02em;line-height:1;color:var(--fg)}
+.stat-label{font-size:11px;color:var(--muted);margin-top:4px;font-weight:500}
+.stat-trend{position:absolute;top:16px;right:16px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;display:flex;align-items:center;gap:2px;color:var(--success)}
+
+.section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.section-title h3{font-size:14px;font-weight:700;letter-spacing:-.01em;color:var(--fg);font-family:'Plus Jakarta Sans',sans-serif}
+.section-title .link{font-size:11px;color:var(--primary);font-weight:600}
+
+.mission-list{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+.mission-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer}
+.mission-card .m-icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mission-card .m-icon.red{background:var(--danger-soft);color:var(--danger)}
+.mission-card .m-icon.blue{background:var(--info-soft);color:var(--info)}
+.mission-card .m-icon.yellow{background:var(--warn-soft);color:var(--warn)}
+.mission-card .m-icon.success{background:var(--success-soft);color:var(--success)}
+.mission-card .m-icon.primary{background:var(--primary-soft);color:var(--primary)}
+.m-info{flex:1;min-width:0}
+.m-info .title{font-size:13px;font-weight:600;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--fg)}
+.m-info .meta{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted)}
+.difficulty{font-family:'JetBrains Mono',monospace;padding:1px 6px;border-radius:4px;font-size:9px;font-weight:600;letter-spacing:.05em}
+.difficulty.easy{background:var(--success-soft);color:var(--success)}
+.difficulty.medium{background:var(--warn-soft);color:var(--warn)}
+.difficulty.hard{background:var(--danger-soft);color:var(--danger)}
+.m-chevron{color:var(--muted-2)}
+
+.leader-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:24px}
+.leader-row{display:flex;align-items:center;gap:12px;padding:10px 0}
+.leader-row+.leader-row{border-top:1px solid var(--border-soft)}
+.leader-rank{width:22px;height:22px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;background:var(--bg-soft);color:var(--muted)}
+.leader-rank.gold{background:#fef3c7;color:#b45309}
+.leader-rank.silver{background:#f1f5f9;color:#475569}
+.leader-rank.bronze{background:#fed7aa;color:#9a3412}
+.leader-name{flex:1;font-size:13px;font-weight:600;color:var(--fg)}
+.leader-score{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--primary)}
+
+/* ============ CASE LIST (03a) ============ */
+.page-header{padding:12px 0 20px;display:flex;align-items:center;justify-content:space-between}
+.page-header h1{font-size:22px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;color:var(--fg)}
+.page-header p{font-size:12px;color:var(--muted);margin-top:2px}
+
+.case-list{display:flex;flex-direction:column;gap:12px;margin-top:8px}
+.case-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:16px;cursor:pointer;transition:transform .15s}
+.case-card.locked{opacity:.6;background:var(--bg-soft)}
+.case-card.active{border:1px solid var(--primary-dim);box-shadow:0 4px 16px rgba(79,70,229,.08)}
+.case-header{display:flex;align-items:center;gap:12px}
+.case-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.case-icon.success{background:var(--success-soft);color:var(--success)}
+.case-icon.primary{background:var(--primary-soft);color:var(--primary)}
+.case-icon.locked{background:var(--border-soft);color:var(--muted)}
+.case-info{flex:1;min-width:0}
+.case-info .case-title{font-size:14px;font-weight:700;color:var(--fg);font-family:'Plus Jakarta Sans',sans-serif;margin-bottom:2px}
+.case-info .case-meta{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.case-badge{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;padding:3px 7px;border-radius:5px;letter-spacing:.05em}
+.case-badge.success{background:var(--success-soft);color:var(--success)}
+.case-badge.primary{background:var(--primary-soft);color:var(--primary)}
+.case-badge.locked{background:var(--border);color:var(--muted)}
+.case-progress{margin-top:14px}
+.case-progress .progress-bar{margin-bottom:6px}
+.case-progress .p-info{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)}
+.case-progress .p-info .val{color:var(--primary);font-weight:600}
+
+/* ============ MISSION DETAIL / DISCUSSION (03b) ============ */
+.mission-top{display:flex;align-items:center;justify-content:space-between;padding:8px 0 20px}
+.back-btn{width:38px;height:38px;border-radius:11px;background:var(--bg-card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.m-id{text-align:center}
+.m-id .id{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.1em;font-weight:500}
+.m-id .title{font-size:13px;font-weight:700;margin-top:2px;color:var(--fg);font-family:'Plus Jakarta Sans',sans-serif}
+.timer-pill{background:var(--danger-soft);color:var(--danger);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;padding:8px 12px;border-radius:10px;display:flex;align-items:center;gap:6px}
+
+.brief-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:14px}
+.brief-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px;font-weight:600}
+.brief-text{font-size:13px;line-height:1.6;color:var(--fg-2)}
+
+.ai-threat-card{background:#fff;border:1px solid var(--danger-dim);border-radius:16px;padding:18px;margin-bottom:16px;position:relative;overflow:hidden}
+.threat-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.threat-id{display:flex;align-items:center;gap:10px}
+.threat-avatar{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,#dc2626,#f87171);display:flex;align-items:center;justify-content:center}
+.threat-name{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.05em;color:var(--danger)}
+.threat-sub{font-size:10px;color:var(--muted);margin-top:2px}
+.threat-warning{display:flex;align-items:center;gap:4px;font-family:'JetBrains Mono',monospace;font-size:9px;background:var(--danger);color:#fff;padding:4px 8px;border-radius:6px;font-weight:600;letter-spacing:.08em}
+.ai-claim{font-size:14px;line-height:1.65;color:var(--fg);margin-bottom:16px;padding-left:14px;border-left:3px solid var(--danger-dim);font-weight:500}
+.ai-claim .fake-stat{background:var(--danger-soft);color:var(--danger);padding:2px 6px;border-radius:4px;font-weight:600}
+.confidence-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.confidence-row .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.08em;font-weight:500}
+.confidence-row .val{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--danger);font-weight:700}
+.confidence-bar{height:4px;background:var(--danger-soft);border-radius:2px;overflow:hidden}
+.confidence-fill{height:100%;background:var(--danger);width:92%}
+
+.toolkit-section{margin-bottom:16px}
+.toolkit-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.toolkit-header .title{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--info);display:flex;align-items:center;gap:6px;font-weight:600}
+.toolkit-header .count{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);font-weight:500}
+.search-bar{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.search-bar input{flex:1;background:transparent;border:none;outline:none;color:var(--fg);font-family:'Inter',sans-serif;font-size:13px}
+.search-bar input::placeholder{color:var(--muted-2)}
+.source-chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.source-chips::-webkit-scrollbar{display:none}
+.source-chip{display:flex;align-items:center;gap:6px;background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:7px 12px;font-size:11px;font-weight:600;color:var(--fg);flex-shrink:0;cursor:pointer;white-space:nowrap}
+.source-chip .dot-ver{width:6px;height:6px;border-radius:50%;background:var(--success)}
+.evidence-card{background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--info);border-radius:12px;padding:14px;margin-bottom:8px}
+.evidence-source{display:flex;align-items:center;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--info);margin-bottom:8px;letter-spacing:.03em;font-weight:500}
+.evidence-source .verified{display:flex;align-items:center;gap:4px;color:var(--success);font-weight:600}
+.evidence-text{font-size:12px;line-height:1.55;color:var(--fg-2)}
+.evidence-text .highlight{background:var(--info-soft);color:var(--info);padding:1px 5px;border-radius:3px;font-weight:600}
+
+.argument-composer{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px}
+.composer-label{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.composer-label .title{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--primary);display:flex;align-items:center;gap:6px;font-weight:600}
+.composer-label .counter{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);font-weight:500}
+.composer-input{width:100%;background:var(--bg-soft);border:1px solid var(--border);border-radius:10px;padding:12px;color:var(--fg);font-family:'Inter',sans-serif;font-size:13px;outline:none;min-height:90px;resize:none;margin-bottom:10px;line-height:1.55}
+.composer-input:focus{border-color:var(--primary);background:#fff}
+.composer-input::placeholder{color:var(--muted-2)}
+.composer-tools{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.tool-btn{display:flex;align-items:center;gap:6px;background:var(--bg-soft);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:11px;color:var(--fg-2);font-weight:600;cursor:pointer}
+.tool-btn .badge{background:var(--primary);color:#fff;font-family:'JetBrains Mono',monospace;font-size:9px;padding:1px 5px;border-radius:4px;font-weight:600}
+.submit-btn{width:100%;background:var(--primary);color:#fff;border:none;padding:14px;border-radius:11px;font-weight:600;font-size:14px;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 6px 16px rgba(79,70,229,.25)}
+
+/* ============ RAPOR (04) ============ */
+.rapor-hero{background:linear-gradient(135deg,#4f46e5 0%,#6366f1 100%);border-radius:18px;padding:20px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden;box-shadow:0 12px 32px rgba(79,70,229,.2)}
+.rapor-hero::after{content:'';position:absolute;top:-20px;right:-20px;width:150px;height:150px;background:rgba(255,255,255,.1);border-radius:50%}
+.rapor-hero::before{content:'';position:absolute;bottom:-40px;left:-20px;width:100px;height:100px;background:rgba(255,255,255,.05);border-radius:50%}
+.rapor-tag{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;background:rgba(255,255,255,.2);color:#fff;padding:4px 8px;border-radius:6px;margin-bottom:14px;font-weight:600;letter-spacing:.08em;position:relative;z-index:2}
+.rapor-score-main{font-family:'Plus Jakarta Sans',sans-serif;font-size:42px;font-weight:800;line-height:1;margin-bottom:6px;position:relative;z-index:2}
+.rapor-score-label{font-size:12px;opacity:.9;margin-bottom:16px;position:relative;z-index:2}
+.rapor-meta{display:flex;gap:12px;position:relative;z-index:2}
+.rapor-meta-item{background:rgba(255,255,255,.15);padding:8px 12px;border-radius:10px;flex:1}
+.rapor-meta-item .val{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700}
+.rapor-meta-item .lbl{font-size:10px;opacity:.8;margin-top:2px}
+
+.chart-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:24px}
+.chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.chart-header .title{font-size:14px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif}
+.chart-header .period{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);background:var(--bg-soft);padding:4px 8px;border-radius:6px}
+.chart-bars{display:flex;justify-content:space-between;align-items:flex-end;height:120px;padding-bottom:24px;border-bottom:1px solid var(--border-soft);position:relative}
+.chart-bars::before,.chart-bars::after{content:'';position:absolute;left:0;right:0;border-bottom:1px dashed var(--border-soft)}
+.chart-bars::before{bottom:50%}
+.chart-bars::after{bottom:75%}
+.bar-wrapper{display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;height:100%;justify-content:flex-end}
+.bar{width:16px;background:var(--primary-dim);border-radius:4px 4px 0 0;position:relative;transition:height .3s}
+.bar.active{background:var(--primary)}
+.bar-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);font-weight:600;position:absolute;bottom:-20px}
+
+.skill-item{margin-bottom:16px}
+.skill-item:last-child{margin-bottom:0}
+.skill-header{display:flex;justify-content:space-between;margin-bottom:8px}
+.skill-name{font-size:13px;font-weight:600;color:var(--fg)}
+.skill-val{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--primary)}
+.skill-bar{height:8px;background:var(--border-soft);border-radius:4px;overflow:hidden}
+.skill-fill{height:100%;background:var(--primary);border-radius:4px}
+
+.history-list{display:flex;flex-direction:column;gap:8px}
+.history-item{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px}
+.h-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--success-soft);color:var(--success)}
+.h-icon.proc{background:var(--primary-soft);color:var(--primary)}
+.h-info{flex:1}
+.h-info .title{font-size:13px;font-weight:600;color:var(--fg)}
+.h-info .meta{font-size:11px;color:var(--muted);margin-top:2px}
+.h-score{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--success)}
+.h-score.proc{color:var(--primary)}
+
+/* ============ SETTINGS ============ */
+.settings-header{padding:8px 0 24px}
+.settings-header h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:26px;font-weight:800;letter-spacing:-.02em;color:var(--fg)}
+.settings-header p{font-size:13px;color:var(--muted);margin-top:4px}
+.profile-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:24px;display:flex;align-items:center;gap:14px}
+.profile-avatar{width:54px;height:54px;border-radius:16px;background:linear-gradient(135deg,#6366f1,#4f46e5);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;color:#fff;flex-shrink:0;font-family:'Plus Jakarta Sans',sans-serif}
+.profile-info{flex:1}
+.profile-info .name{font-size:16px;font-weight:700;margin-bottom:2px;color:var(--fg);font-family:'Plus Jakarta Sans',sans-serif}
+.profile-info .email{font-size:12px;color:var(--muted);margin-bottom:6px}
+.profile-rank{display:inline-flex;align-items:center;gap:4px;font-family:'JetBrains Mono',monospace;font-size:10px;background:var(--primary-soft);color:var(--primary);padding:3px 8px;border-radius:6px;font-weight:600;letter-spacing:.03em}
+.edit-btn{background:var(--bg-soft);border:1px solid var(--border);width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--muted);cursor:pointer}
+.settings-section{margin-bottom:24px}
+.settings-section-title{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-left:4px;font-weight:600}
+.settings-group{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.settings-item{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border-soft)}
+.settings-item:last-child{border-bottom:none}
+.settings-item-left{display:flex;align-items:center;gap:12px}
+.settings-icon{width:32px;height:32px;border-radius:9px;background:var(--bg-soft);display:flex;align-items:center;justify-content:center;color:var(--primary);flex-shrink:0}
+.settings-icon.danger{color:var(--danger);background:var(--danger-soft)}
+.settings-icon.info{color:var(--info);background:var(--info-soft)}
+.settings-icon.warn{color:var(--warn);background:var(--warn-soft)}
+.settings-icon.success{color:var(--success);background:var(--success-soft)}
+.settings-item-text .title{font-size:14px;font-weight:600;color:var(--fg)}
+.settings-item-text .sub{font-size:11px;color:var(--muted);margin-top:2px}
+.toggle{width:38px;height:22px;background:var(--border);border-radius:12px;position:relative;cursor:pointer;flex-shrink:0}
+.toggle.on{background:var(--primary)}
+.toggle::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;background:#fff;border-radius:50%;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.toggle.on::after{transform:translateX(16px)}
+.chevron{color:var(--muted-2)}
+.logout-btn{width:100%;background:var(--danger-soft);border:1px solid var(--danger-dim);color:var(--danger);padding:14px;border-radius:12px;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;margin-top:8px}
+.app-version{text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted-2);margin-top:24px;letter-spacing:.08em;line-height:1.6;font-weight:500}
+</style>
+</head>
+<body>
+<div class="stage">
+
+<!-- =================== 01 LOGIN =================== -->
+<div class="section-head">
+  <span class="num">01</span>
+  <span>Login</span>
+  <span class="line"></span>
+</div>
+
+<div class="phone login">
+  <div class="notch"></div>
+  <div class="phone-inner">
+    <div class="status-bar">
+      <span>9:41</span>
+      <div class="icons">
+        <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><rect x="0" y="7" width="3" height="4" fill="#0f172a"/><rect x="4" y="5" width="3" height="6" fill="#0f172a"/><rect x="8" y="2" width="3" height="9" fill="#0f172a"/><rect x="12" y="0" width="3" height="11" fill="#0f172a" opacity=".4"/></svg>
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M7 2c2 0 3.8.7 5.2 1.9l1-1.2C11.6 1.3 9.4.5 7 .5S2.4 1.3.8 2.7l1 1.2C3.2 2.7 5 2 7 2zm0 3c1.2 0 2.3.4 3.2 1.1l1-1.2C10 3.7 8.6 3 7 3s-3 .7-4.2 1.9l1 1.2C4.7 5.4 5.8 5 7 5zm0 3c.6 0 1.1.2 1.6.5l1-1.2C8.8 6.8 7.9 6.5 7 6.5s-1.8.3-2.6.8l1 1.2c.5-.3 1-.5 1.6-.5z" fill="#0f172a"/></svg>
+        <svg width="24" height="11" viewBox="0 0 24 11" fill="none"><rect x="0.5" y="0.5" width="20" height="10" rx="2.5" stroke="#0f172a" opacity=".4"/><rect x="2" y="2" width="16" height="7" rx="1" fill="#0f172a"/><rect x="21" y="3.5" width="2" height="4" rx="1" fill="#0f172a" opacity=".4"/></svg>
+      </div>
+    </div>
+    <div class="screen">
+      <div class="login-screen">
+        <div class="login-logo">
+          <div class="logo-mark">
+            <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+              <path d="M20 6C11 6 4 20 4 20s7 14 16 14 16-14 16-14-7-14-16-14z" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/>
+              <circle cx="20" cy="20" r="6" fill="#fff"/>
+              <circle cx="20" cy="20" r="2.5" fill="#4f46e5"/>
+            </svg>
+          </div>
+          <div class="brand-name">SadarCyber<span class="ai-badge">AI</span></div>
+          <div class="brand-tagline">Bongkar kebohongan AI. Latih logika kritis. Jadi detektif digital.</div>
+        </div>
+        
+        <div class="login-form">
+          <div class="field-group">
+            <label class="field-label">ID Siswa / Email</label>
+            <input class="field-input" type="text" value="rizky.d@smkn2kraksaan.sch.id" />
+          </div>
+          <div class="field-group">
+            <label class="field-label">Kata Sandi</label>
+            <input class="field-input" type="password" value="••••••••••" />
+          </div>
+          <button class="btn-primary">
+            Masuk
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        
+        <div class="login-footer">
+          Platform Resmi Digital Literacy<br/>
+          <span class="instansi">SMKN 2 KRAKSAAN</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== 02 DASHBOARD =================== -->
+<div class="section-head">
+  <span class="num">02</span>
+  <span>Dashboard Siswa</span>
+  <span class="line"></span>
+</div>
+
+<div class="phone">
+  <div class="notch"></div>
+  <div class="phone-inner">
+    <div class="status-bar">
+      <span>9:41</span>
+      <div class="icons">
+        <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><rect x="0" y="7" width="3" height="4" fill="#0f172a"/><rect x="4" y="5" width="3" height="6" fill="#0f172a"/><rect x="8" y="2" width="3" height="9" fill="#0f172a"/><rect x="12" y="0" width="3" height="11" fill="#0f172a" opacity=".4"/></svg>
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M7 2c2 0 3.8.7 5.2 1.9l1-1.2C11.6 1.3 9.4.5 7 .5S2.4 1.3.8 2.7l1 1.2C3.2 2.7 5 2 7 2zm0 3c1.2 0 2.3.4 3.2 1.1l1-1.2C10 3.7 8.6 3 7 3s-3 .7-4.2 1.9l1 1.2C4.7 5.4 5.8 5 7 5zm0 3c.6 0 1.1.2 1.6.5l1-1.2C8.8 6.8 7.9 6.5 7 6.5s-1.8.3-2.6.8l1 1.2c.5-.3 1-.5 1.6-.5z" fill="#0f172a"/></svg>
+        <svg width="24" height="11" viewBox="0 0 24 11" fill="none"><rect x="0.5" y="0.5" width="20" height="10" rx="2.5" stroke="#0f172a" opacity=".4"/><rect x="2" y="2" width="16" height="7" rx="1" fill="#0f172a"/><rect x="21" y="3.5" width="2" height="4" rx="1" fill="#0f172a" opacity=".4"/></svg>
+      </div>
+    </div>
+    <div class="screen">
+      <div class="screen-content">
+        
+        <div class="dash-header">
+          <div class="user-info">
+            <div class="avatar online">RD</div>
+            <div class="user-text">
+              <div class="greeting">Selamat datang,</div>
+              <div class="name">Rizky Damar <span class="lvl-badge">LVL 7</span></div>
+            </div>
+          </div>
+          <div class="icon-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="dot"></span>
+          </div>
+        </div>
+        
+        <div class="mission-hero">
+          <div class="mission-tag">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" fill="#4f46e5"/><path d="M5 3v2l1.5 1" stroke="#fff" stroke-width="1" stroke-linecap="round"/></svg>
+            MISI HARI INI
+          </div>
+          <h2>Operasi:<br/>Hoaks Vaksin Digital</h2>
+          <p>AI narator menyebarkan klaim palsu soal efek samping vaksin. Bongkar dengan data Kemenkes &amp; WHO.</p>
+          <div class="progress-row">
+            <span class="label">PROGRES MISI</span>
+            <span class="value">65% · 3/5 evidence</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill"></div></div>
+          <button class="continue-btn">
+            Lanjutkan Investigasi
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        
+        <div class="stats-grid">
+          <div class="stat-card danger">
+            <div class="stat-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7v6c0 5 4 9 10 9s10-4 10-9V7l-10-5z" stroke="currentColor" stroke-width="2"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="stat-value">23</div>
+            <div class="stat-label">Hoaks Dibongkar</div>
+            <div class="stat-trend">+4</div>
+          </div>
+          <div class="stat-card primary">
+            <div class="stat-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="stat-value">847</div>
+            <div class="stat-label">Skor Logika HOTS</div>
+            <div class="stat-trend">+52</div>
+          </div>
+          <div class="stat-card warn">
+            <div class="stat-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2c0 4-4 4-4 8a4 4 0 0 0 8 0c0-2-1-4-1-4s2 1 3 4a8 8 0 0 1-16 0c0-6 6-8 6-12 2 2 4 2 4 4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="stat-value">7</div>
+            <div class="stat-label">Hari Streak</div>
+            <div class="stat-trend">★</div>
+          </div>
+          <div class="stat-card success">
+            <div class="stat-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 3v18h18M7 14l3-3 4 4 5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="stat-value">89%</div>
+            <div class="stat-label">Akurasi Fact-Check</div>
+            <div class="stat-trend">+3%</div>
+          </div>
+        </div>
+        
+        <div class="section-title">
+          <h3>Misi Aktif</h3>
+          <span class="link">Lihat semua →</span>
+        </div>
+        <div class="mission-list">
+          <div class="mission-card">
+            <div class="m-icon success">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="m-info">
+              <div class="title">Kasus 01: Beasiswa Palsu</div>
+              <div class="meta"><span class="difficulty easy">SELESAI</span> · Skor 950 · 5/5 bukti</div>
+            </div>
+            <span class="m-chevron">›</span>
+          </div>
+          <div class="mission-card" style="border-color:var(--primary-dim);background:var(--primary-soft);">
+            <div class="m-icon primary">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 8v4l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="m-info">
+              <div class="title">Kasus 02: Jurnal Halusinasi</div>
+              <div class="meta"><span class="difficulty medium">PROSES</span> · 3/5 bukti terkumpul</div>
+            </div>
+            <span class="m-chevron">›</span>
+          </div>
+          <div class="mission-card" style="opacity:.6">
+            <div class="m-icon yellow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2"/></svg>
+            </div>
+            <div class="m-info">
+              <div class="title">Kasus 03: Video Deepfake</div>
+              <div class="meta"><span class="difficulty hard">TERKUNCI</span> · Selesaikan Kasus 02</div>
+            </div>
+            <span class="m-chevron">›</span>
+          </div>
+        </div>
+        
+        <div class="section-title">
+          <h3>Papan Peringkat Kelas</h3>
+          <span class="link">XI-RPL 2</span>
+        </div>
+        <div class="leader-card">
+          <div class="leader-row">
+            <div class="leader-rank gold">1</div>
+            <div class="avatar" style="width:32px;height:32px;font-size:12px;background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#fff">SA</div>
+            <div class="leader-name">Siti Aminah</div>
+            <div class="leader-score">1.247</div>
+          </div>
+          <div class="leader-row">
+            <div class="leader-rank silver">2</div>
+            <div class="avatar" style="width:32px;height:32px;font-size:12px;background:linear-gradient(135deg,#94a3b8,#64748b);color:#fff">BP</div>
+            <div class="leader-name">Bagas Pratama</div>
+            <div class="leader-score">982</div>
+          </div>
+          <div class="leader-row">
+            <div class="leader-rank bronze">3</div>
+            <div class="avatar" style="width:32px;height:32px;font-size:12px;background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff">RD</div>
+            <div class="leader-name">Rizky Damar <span style="font-size:10px;color:var(--muted);font-weight:500">(kamu)</span></div>
+            <div class="leader-score">847</div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <div class="nav-item active">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3l9 9M5 10v10h14V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        Beranda
+      </div>
+      <div class="nav-item">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M9 2h6l4 4v6a7 7 0 0 1-14 0V6l4-4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 8v4l2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+        Misi
+      </div>
+      <div class="nav-item">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 3v18h18M7 14l3-3 4 4 5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        Rapor
+      </div>
+      <div class="nav-item">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/><path d="M4 21a8 8 0 0 1 16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+        Profil
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== 03a CASE LIST (DAFTAR KASUS) =================== -->
+<div class="section-head">
+  <span class="num">03a</span>
+  <span>Daftar Kasus</span>
+  <span class="line"></span>
+</div>
+
+<div class="phone">
+  <div class="notch"></div>
+  <div class="phone-inner">
+    <div class="status-bar">
+      <span>9:41</span>
+      <div class="icons">
+        <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><rect x="0" y="7" width="3" height="4" fill="#0f172a"/><rect x="4" y="5" width="3" height="6" fill="#0f172a"/><rect x="8" y="2" width="3" height="9" fill="#0f172a"/><rect x="12" y="0" width="3" height="11" fill="#0f172a" opacity=".4"/></svg>
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M7 2c2 0 3.8.7 5.2 1.9l1-1.2C11.6 1.3 9.4.5 7 .5S2.4 1.3.8 2.7l1 1.2C3.2 2.7 5 2 7 2zm0 3c1.2 0 2.3.4 3.2 1.1l1-1.2C10 3.7 8.6 3 7 3s-3 .7-4.2 1.9l1 1.2C4.7 5.4 5.8 5 7 5zm0 3c.6 0 1.1.2 1.6.5l1-1.2C8.8 6.8 7.9 6.5 7 6.5s-1.8.3-2.6.8l1 1.2c.5-.3 1-.5 1.6-.5z" fill="#0f172a"/></svg>
+        <svg width="24" height="11" viewBox="0 0 24 11" fill="none"><rect x="0.5" y="0.5" width="20" height="10" rx="2.5" stroke="#0f172a" opacity=".4"/><rect x="2" y="2" width="16" height="7" rx="1" fill="#0f172a"/><rect x="21" y="3.5" width="2" height="4" rx="1" fill="#0f172a" opacity=".4"/></svg>
+      </div>
+    </div>
+    <div class="screen">
+      <div class="screen-content">
+        
+        <div class="page-header">
+          <div class="user-text">
+            <div class="greeting">Mode Investigasi</div>
+            <h1 style="font-size:22px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;margin-top:2px;">Daftar Kasus</h1>
+          </div>
+          <div class="icon-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M6 12h12M9 18h6" stroke="#334155" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+        
+        <div class="brief-card" style="margin-bottom:20px">
+          <div class="brief-label">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            INSTRUKSI
+          </div>
+          <div class="brief-text">Pilih kasus di bawah ini untuk masuk ke ruang diskusi dengan AI Narator. Bongkar kebohongan AI menggunakan toolkit fact-check!</div>
+        </div>
+
+        <div class="case-list">
+          <!-- Case 1 -->
+          <div class="case-card">
+            <div class="case-header">
+              <div class="case-icon success">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="case-info">
+                <div class="case-title">Kasus 01: Beasiswa Palsu</div>
+                <div class="case-meta">Selesai · Skor 950/1000 · 5/5 bukti</div>
+              </div>
+              <span class="case-badge success">Selesai</span>
+            </div>
+          </div>
+
+          <!-- Case 2 -->
+          <div class="case-card active">
+            <div class="case-header">
+              <div class="case-icon primary">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 8v4l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="case-info">
+                <div class="case-title">Kasus 02: Jurnal Halusinasi</div>
+                <div class="case-meta">Sedang dikerjakan · 3/5 bukti terkumpul</div>
+              </div>
+              <span class="case-badge primary">Proses</span>
+            </div>
+            <div class="case-progress">
+              <div class="progress-bar"><div class="progress-fill" style="width: 60%"></div></div>
+              <div class="p-info">
+                <span>PROGRES FACT-CHECK</span>
+                <span class="val">60%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Case 3 -->
+          <div class="case-card locked">
+            <div class="case-header">
+              <div class="case-icon locked">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2"/></svg>
+              </div>
+              <div class="case-info">
+                <div class="case-title">Kasus 03: Video Deepfake</div>
+                <div class="case-meta">Selesaikan Kasus 02 untuk membuka</div>
+              </div>
+              <span class="case-badge locked">Terkunci</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <div class="nav-item">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3l9 9M5 10v10h14V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        Beranda
+      </div>
+      <div class="nav-item active">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M9 2h6l4 4v6a7 7 0 0 1-14 0V6l4-4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 8v4l2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+        Misi
+      </div>
+      <div class="nav-item">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 3v18h18M7 14l3-3 4 4 5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        Rapor
+      </div>
+      <div class="nav-item">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/><path d="M4 21a8 8 0 0 1 16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+        Profil
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== 03b DISCUSSION / TASK (DISKUSI SISWA VS AI) =================== -->
+<div class="section-head">
+  <span class="num">03b</span>
+  <span>Diskusi Kasus — Siswa vs AI</span>
+  <span class="line"></span>
+</div>
+
+<div class="phone">
+  <div class="notch"></div>
+  <div class="phone-inner">
+    <div class="status-bar">
+      <span>9:41</span>
+      <div class="icons">
+        <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><rect x="0" y="7" width="3" height="4" fill="#0f172a"/><rect x="4" y="5" width="3" height="6" fill="#0f172a"/><rect x="8" y="2" width="3" height="9" fill="#0f172a"/><rect x="12" y="0" width="3" height="11" fill="#0f172a" opacity=".4"/></svg>
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M7 2c2 0 3.8.7 5.2 1.9l1-1.2C11.6 1.3 9.4.5 7 .5S2.4 1.3.8 2.7l1 1.2C3.2 2.7 5 2 7 2zm0 3c1.2 0 2.3.4 3.2 1.1l1-1.2C10 3.7 8.6 3 7 3s-3 .7-4.2 1.9l1 1.2C4.7 5.4 5.8 5 7 5zm0 3c.6 0 1.1.2 1.6.5l1-1.2C8.8 6.8 7.9 6.5 7 6.5s-1.8.3-2.6.8l1 1.2c.5-.3 1-.5 1.6-.5z" fill="#0f172a"/></svg>
+        <svg width="24" height="11" viewBox="0 0 24 11" fill="none"><rect x="0.5" y="0.5" width="20" height="10" rx="2.5" stroke="#0f172a" opacity=".4"/><rect x="2" y="2" width="16" height="7" rx="1" fill="#dc2626"/><rect x="21" y="3.5" width="2" height="4" rx="1" fill="#0f172a" opacity=".4"/></svg>
+      </div>
+    </div>
+    <div class="screen">
+      <div class="screen-content">
+        
+        <div class="mission-top">
+          <div class="back-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="m-id">
+            <div class="id">KASUS 02 · SEDANG BERJALAN</div>
+            <div class="title">Jurnal Halusinasi</div>
+          </div>
+          <div class="timer-pill">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            12:34
+          </div>
+        </div>
+        
+        <div class="brief-card">
+          <div class="brief-label">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            BRIEFING
+          </div>
+          <div class="brief-text">AI Narator membagikan jurnal ilmiah yang terlihat sangat valid. Tugasmu: verifikasi sumber jurnal tersebut dan temukan apakah data yang dikutip benar-benar ada atau hanya halusinasi AI.</div>
+        </div>
+        
+        <div class="ai-threat-card">
+          <div class="threat-header">
+            <div class="threat-id">
+              <div class="threat-avatar">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2a3 3 0 0 0-3 3v1a3 3 0 0 0-3 3v1a3 3 0 0 0 0 6 3 3 0 0 0 3 3v1a3 3 0 0 0 6 0v-1a3 3 0 0 0 3-3 3 3 0 0 0 0-6V9a3 3 0 0 0-3-3V5a3 3 0 0 0-3-3z" fill="#fff"/><circle cx="9" cy="11" r="1.5" fill="#dc2626"/><circle cx="15" cy="11" r="1.5" fill="#dc2626"/></svg>
+              </div>
+              <div>
+                <div class="threat-name">AI NARATOR-7</div>
+                <div class="threat-sub">Mode: Adversary · Tingkat 3</div>
+              </div>
+            </div>
+            <div class="threat-warning">
+              <svg width="8" height="8" viewBox="0 0 24 24" fill="none"><path d="M12 9v4M12 17h.01" stroke="#fff" stroke-width="3" stroke-linecap="round"/><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" stroke="#fff" stroke-width="2"/></svg>
+              ANCAMAN
+            </div>
+          </div>
+          <div class="ai-claim">
+            "Berdasarkan penelitian dari <span class="fake-stat">Universitas Cambridge (2023)</span> yang dimuat di Journal of Neuroethics, konsumsi AI generatif meningkatkan ukuran korteks otak manusia sebesar <span class="fake-stat">40% dalam 6 bulan</span>. Data ini berasal dari uji klinis pada <span class="fake-stat">5.000 mahasiswa</span> di London."
+          </div>
+          <div class="confidence-row">
+            <span class="lbl">TINGKAT KEYAKINAN AI</span>
+            <span class="val">92%</span>
+          </div>
+          <div class="confidence-bar"><div class="confidence-fill"></div></div>
+        </div>
+        
+        <div class="toolkit-section">
+          <div class="toolkit-header">
+            <div class="title">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              FACT-CHECK TOOLKIT
+            </div>
+            <span class="count">3/5 verified</span>
+          </div>
+          <div class="search-bar">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8" stroke="#94a3b8" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></svg>
+            <input type="text" placeholder="Cari jurnal, data BPS, situs resmi..." />
+          </div>
+          <div class="source-chips">
+            <div class="source-chip"><span class="dot-ver"></span>ScienceDirect</div>
+            <div class="source-chip"><span class="dot-ver"></span>Cambridge Press</div>
+            <div class="source-chip"><span class="dot-ver"></span>PubMed</div>
+            <div class="source-chip">Google Scholar</div>
+            <div class="source-chip">DOAJ</div>
+          </div>
+        </div>
+        
+        <div class="toolkit-section">
+          <div class="toolkit-header">
+            <div class="title">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/></svg>
+              BUKTI TERKUMPUL
+            </div>
+            <span class="count">3 items</span>
+          </div>
+          
+          <div class="evidence-card">
+            <div class="evidence-source">
+              <span>cambridge.org · 2023</span>
+              <span class="verified">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/></svg>
+                VERIFIED
+              </span>
+            </div>
+            <div class="evidence-text">"Tidak ditemukan publikasi berjudul 'AI Generatif dan Korteks Otak' di <span class="highlight">Journal of Neuroethics 2023</span>. Jurnal tersebut hanya menerbitkan 12 artikel sepanjang 2023, tidak ada yang membahas hal serupa."</div>
+          </div>
+          
+          <div class="evidence-card">
+            <div class="evidence-source">
+              <span>ncbi.nlm.nih.gov · PubMed</span>
+              <span class="verified">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/></svg>
+                VERIFIED
+              </span>
+            </div>
+            <div class="evidence-text">"Studi tentang perubahan struktur otak butuh pengamatan minimal <span class="highlight">12-24 bulan</span>. Klaim perubahan 40% dalam 6 bulan secara biologis tidak masuk akal dan tidak memiliki preseden medis."</div>
+          </div>
+        </div>
+        
+        <div class="argument-composer">
+          <div class="composer-label">
+            <div class="title">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              ARGUMEN BANTAHANMU
+            </div>
+            <span class="counter">247/500</span>
+          </div>
+          <textarea class="composer-input" placeholder="Tulis bantahan berbasis bukti. Sebutkan klaim AI yang salah, sertakan evidence, dan jelaskan mengapa data AI tersebut tidak valid...">Klaim AI tentang "peningkatan 40% korteks otak dalam 6 bulan" adalah halusinasi. Verifikasi di Cambridge Press &amp; PubMed membuktikan tidak ada jurnal seperti itu di Journal of Neuroethics 2023. Selain itu, secara biologis perubahan otak butuh waktu 12-24 bulan, sehingga data 5.000 mahasiswa tersebut...</textarea>
+          <div class="composer-tools">
+            <div class="tool-btn">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M21.4 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Lampir Evidence
+              <span class="badge">3</span>
+            </div>
+            <div class="tool-btn">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Cek Logika
+            </div>
+          </div>
+          <button class="submit-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="10" stroke="#fff" stroke-width="2"/></svg>
+            Bongkar Kebohongan AI
+          </button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== 04 RAPOR (MENU RAPOR SISWA) =================== -->
+<div class="section-head">
+  <span class="num">04</span>
+  <span>Rapor Logika Siswa</span>
+  <span class="line"></span>
+</div>
+
+<div class="phone">
+  <div class="notch"></div>
+  <div class="phone-inner">
+    <div class="status-bar">
+      <span>9:41</span>
+      <div class="icons">
+        <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><rect x="0" y="7" width="3" height="4" fill="#0f172a"/><rect x="4" y="5" width="3" height="6" fill="#0f172a"/><rect x="8" y="2" width="3" height="9" fill="#0f172a"/><rect x="12" y="0" width="3" height="11" fill="#0f172a" opacity=".4"/></svg>
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M7 2c2 0 3.8.7 5.2 1.9l1-1.2C11.6 1.3 9.4.5 7 .5S2.4 1.3.8 2.7l1 1.2C3.2 2.7 5 2 7 2zm0 3c1.2 0 2.3.4 3.2 1.1l1-1.2C10 3.7 8.6 3 7 3s-3 .7-4.2 1.9l1 1.2C4.7 5.4 5.8 5 7 5zm0 3c.6 0 1.1.2 1.6.5l1-1.2C8.8 6.8 7.9 6.5 7 6.5s-1.8.3-2.6.8l1 1.2c.5-.3 1-.5 1.6-.5z" fill="#0f172a"/></svg>
+        <svg width="24" height="11" viewBox="0 0 24 11" fill="none"><rect x="0.5" y="0.5" width="20" height="10" rx="2.5" stroke="#0f172a" opacity=".4"/><rect x="2" y="2" width="16" height="7" rx="1" fill="#0f172a"/><rect x="21" y="3.5" width="2" height="4" rx="1" fill="#0f172a" opacity=".4"/></svg>
+      </div>
+    </div>
+    <div class="screen">
+      <div class="screen-content">
+        
+        <div class="page-header">
+          <div class="user-text">
+            <div class="greeting">Analisis Performa</div>
+            <h1>Rapor Logika</h1>
+          </div>
+          <div class="icon-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        
+        <!-- Hero Rapor -->
+        <div class="rapor-hero">
+          <div class="rapor-tag">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7v6c0 5 4 9 10 9s10-4 10-9V7l-10-5z" stroke="#fff" stroke-width="2"/><path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            HOTS SCORE
+          </div>
+          <div class="rapor-score-main">847</div>
+          <div class="rapor-score-label">Total Skor Berpikir Kritis</div>
+          <div class="rapor-meta">
+            <div class="rapor-meta-item">
+              <div class="val">Peringkat 3</div>
+              <div class="lbl">Dari 32 Siswa</div>
+            </div>
+            <div class="rapor-meta-item">
+              <div class="val">23</div>
+              <div class="lbl">Hoaks Dibongkar</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Chart Aktivitas -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="title">Aktivitas Investigasi</div>
+            <div class="period">7 HARI TERAKHIR</div>
+          </div>
+          <div class="chart-bars">
+            <div class="bar-wrapper"><div class="bar" style="height: 30%"></div><span class="bar-label">Sen</span></div>
+            <div class="bar-wrapper"><div class="bar" style="height: 60%"></div><span class="bar-label">Sel</span></div>
+            <div class="bar-wrapper"><div class="bar" style="height: 45%"></div><span class="bar-label">Rab</span></div>
+            <div class="bar-wrapper"><div class="bar" style="height: 80%"></div><span class="bar-label">Kam</span></div>
+            <div class="bar-wrapper"><div class="bar active" style="height: 100%"></div><span class="bar-label">Jum</span></div>
+            <div class="bar-wrapper"><div class="bar" style="height: 50%"></div><span class="bar-label">Sab</span></div>
+            <div class="bar-wrapper"><div class="bar" style="height: 20%"></div><span class="bar-label">Min</span></div>
+          </div>
+        </div>
+        
+        <!-- Distribusi Kemampuan -->
+        <div class="section-title" style="margin-bottom:16px">
+          <h3>Kompetensi Kritis</h3>
+          <span class="link">Detail →</span>
+        </div>
+        <div class="brief-card" style="margin-bottom:24px">
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">Akurasi Fact-Check</span>
+              <span class="skill-val">89%</span>
+            </div>
+            <div class="skill-bar"><div class="skill-fill" style="width: 89%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">Kekuatan Argumen</span>
+              <span class="skill-val">75%</span>
+            </div>
+            <div class="skill-bar"><div class="skill-fill" style="width: 75%;background:var(--info)"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">Kecepatan Investigasi</span>
+              <span class="skill-val">68%</span>
+            </div>
+            <div class="skill-bar"><div class="skill-fill" style="width: 68%;background:var(--warn)"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">Deteksi Bias AI</span>
+              <span class="skill-val">92%</span>
+            </div>
+            <div class="skill-bar"><div class="skill-fill" style="width: 92%;background:var(--success)"></div></div>
+          </div>
+        </div>
+        
+        <!-- Riwayat Kasus -->
+        <div class="section-title" style="margin-bottom:12px">
+          <h3>Riwayat Kasus</h3>
+          <span class="link">Semua →</span>
+        </div>
+        <div class="history-list">
+          <div class="history-item">
+            <div class="h-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="h-info">
+              <div class="title">Kasus 01: Beasiswa Palsu</div>
+              <div class="meta">Selesai · 5/5 bukti · 12 menit</div>
+            </div>
+            <div class="h-score">950</div>
+          </div>
+          <div class="history-item">
+            <div class="h-icon proc">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <div class="h-info">
+              <div class="title">Kasus 02: Jurnal Halusinasi</div>
+              <div class="meta">Proses · 3/5 bukti · 08:34</div>
+            </div>
+            <div class="h-score proc">--</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <div class="nav-item">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3l9 9M5 10v10h14V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        Beranda
+      </div>
+      <div class="nav-item">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M9 2h6l4 4v6a7 7 0 0 1-14 0V6l4-4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 8v4l2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+        Misi
+      </div>
+      <div class="nav-item active">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 3v18h18M7 14l3-3 4 4 5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        Rapor
+      </div>
+      <div class="nav-item">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/><path d="M4 21a8 8 0 0 1 16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+        Profil
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== 05 SETTINGS =================== -->
+<div class="section-head">
+  <span class="num">05</span>
+  <span>Pengaturan</span>
+  <span class="line"></span>
+</div>
+
+<div class="phone">
+  <div class="notch"></div>
+  <div class="phone-inner">
+    <div class="status-bar">
+      <span>9:41</span>
+      <div class="icons">
+        <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><rect x="0" y="7" width="3" height="4" fill="#0f172a"/><rect x="4" y="5" width="3" height="6" fill="#0f172a"/><rect x="8" y="2" width="3" height="9" fill="#0f172a"/><rect x="12" y="0" width="3" height="11" fill="#0f172a" opacity=".4"/></svg>
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M7 2c2 0 3.8.7 5.2 1.9l1-1.2C11.6 1.3 9.4.5 7 .5S2.4 1.3.8 2.7l1 1.2C3.2 2.7 5 2 7 2zm0 3c1.2 0 2.3.4 3.2 1.1l1-1.2C10 3.7 8.6 3 7 3s-3 .7-4.2 1.9l1 1.2C4.7 5.4 5.8 5 7 5zm0 3c.6 0 1.1.2 1.6.5l1-1.2C8.8 6.8 7.9 6.5 7 6.5s-1.8.3-2.6.8l1 1.2c.5-.3 1-.5 1.6-.5z" fill="#0f172a"/></svg>
+        <svg width="24" height="11" viewBox="0 0 24 11" fill="none"><rect x="0.5" y="0.5" width="20" height="10" rx="2.5" stroke="#0f172a" opacity=".4"/><rect x="2" y="2" width="16" height="7" rx="1" fill="#0f172a"/><rect x="21" y="3.5" width="2" height="4" rx="1" fill="#0f172a" opacity=".4"/></svg>
+      </div>
+    </div>
+    <div class="screen">
+      <div class="screen-content">
+        
+        <div class="settings-header">
+          <h1>Pengaturan</h1>
+          <p>Atur akun, preferensi, dan privasi.</p>
+        </div>
+        
+        <div class="profile-card">
+          <div class="profile-avatar">RD</div>
+          <div class="profile-info">
+            <div class="name">Rizky Damar</div>
+            <div class="email">rizky.d@smkn2kraksaan.sch.id</div>
+            <span class="profile-rank">
+              <svg width="8" height="8" viewBox="0 0 24 24" fill="none"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7l3-7z" fill="currentColor"/></svg>
+              DETEKTIF RPL — LVL 7
+            </span>
+          </div>
+          <div class="edit-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        
+        <div class="settings-section">
+          <div class="settings-section-title">Preferensi</div>
+          <div class="settings-group">
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="settings-item-text">
+                  <div class="title">Notifikasi Misi</div>
+                  <div class="sub">Reminder misi harian &amp; peringatan</div>
+                </div>
+              </div>
+              <div class="toggle on"></div>
+            </div>
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-icon info">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="settings-item-text">
+                  <div class="title">Efek Suara</div>
+                  <div class="sub">Audio feedback saat fact-check</div>
+                </div>
+              </div>
+              <div class="toggle on"></div>
+            </div>
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-icon warn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 22s-8-4-8-12V5l8-3 8 3v5c0 8-8 12-8 12z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="settings-item-text">
+                  <div class="title">Getaran (Haptic)</div>
+                  <div class="sub">Vibrasi saat AI lawan menyerang</div>
+                </div>
+              </div>
+              <div class="toggle"></div>
+            </div>
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-icon success">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="settings-item-text">
+                  <div class="title">Mode Gelap</div>
+                  <div class="sub">Tampilan malam detektif</div>
+                </div>
+              </div>
+              <div class="toggle"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="settings-section">
+          <div class="settings-section-title">Akun</div>
+          <div class="settings-group">
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 4h16v16H4zM4 9h16M9 4v16" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="settings-item-text">
+                  <div class="title">Informasi Akun</div>
+                  <div class="sub">Nama, kelas, NIS</div>
+                </div>
+              </div>
+              <span class="chevron">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-icon warn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2"/></svg>
+                </div>
+                <div class="settings-item-text">
+                  <div class="title">Keamanan &amp; Sandi</div>
+                  <div class="sub">Ubah kata sandi, 2FA</div>
+                </div>
+              </div>
+              <span class="chevron">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-icon info">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20" stroke="currentColor" stroke-width="2"/></svg>
+                </div>
+                <div class="settings-item-text">
+                  <div class="title">Bahasa</div>
+                  <div class="sub">Indonesia</div>
+                </div>
+              </div>
+              <span class="chevron">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="settings-section">
+          <div class="settings-section-title">Bantuan &amp; Tentang</div>
+          <div class="settings-group">
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-icon info">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="settings-item-text">
+                  <div class="title">Pusat Bantuan</div>
+                  <div class="sub">FAQ, tutorial misi, kontak</div>
+                </div>
+              </div>
+              <span class="chevron">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="settings-item-text">
+                  <div class="title">Kebijakan Privasi</div>
+                  <div class="sub">Cara data digunakan</div>
+                </div>
+              </div>
+              <span class="chevron">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-icon success">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                </div>
+                <div class="settings-item-text">
+                  <div class="title">Tentang SadarCyber AI</div>
+                  <div class="sub">v1.0.0 · Build 2024.11</div>
+                </div>
+              </div>
+              <span class="chevron">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        <button class="logout-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Keluar dari Akun
+        </button>
+        
+        <div class="app-version">
+          SADARCYBER AI · v1.0.0<br/>
+          © 2024 · Made for Gen Z Critical Thinkers
+        </div>
+        
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <div class="nav-item">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3l9 9M5 10v10h14V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        Beranda
+      </div>
+      <div class="nav-item">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M9 2h6l4 4v6a7 7 0 0 1-14 0V6l4-4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 8v4l2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+        Misi
+      </div>
+      <div class="nav-item">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 3v18h18M7 14l3-3 4 4 5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        Rapor
+      </div>
+      <div class="nav-item active">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/><path d="M4 21a8 8 0 0 1 16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+        Profil
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
