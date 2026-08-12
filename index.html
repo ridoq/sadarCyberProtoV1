@@ -117,7 +117,7 @@ body{min-height:100vh;padding:60px 20px}
 .leader-name{flex:1;font-size:13px;font-weight:600;color:var(--fg)}
 .leader-score{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--primary)}
 
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:12px 20px 24px;display:flex;justify-content:space-around;align-items:center;z-index:50}
+.bottom-nav{position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:12px 20px 24px;display:flex;justify-content:space-around;align-items:center;z-index:50}
 .nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--muted-2);font-size:10px;font-weight:600;cursor:pointer}
 .nav-item.active{color:var(--primary)}
 .nav-item .nav-icon{width:22px;height:22px;display:flex;align-items:center;justify-content:center}
@@ -457,24 +457,23 @@ body{min-height:100vh;padding:60px 20px}
         </div>
         
       </div>
-      
-      <div class="bottom-nav">
-        <div class="nav-item active">
-          <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3l9 9M5 10v10h14V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          Beranda
-        </div>
-        <div class="nav-item">
-          <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M9 2h6l4 4v6a7 7 0 0 1-14 0V6l4-4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 8v4l2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
-          Misi
-        </div>
-        <div class="nav-item">
-          <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 3v18h18M7 14l3-3 4 4 5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          Rapor
-        </div>
-        <div class="nav-item">
-          <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/><path d="M4 21a8 8 0 0 1 16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
-          Profil
-        </div>
+    </div>
+    <div class="bottom-nav">
+      <div class="nav-item active">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3l9 9M5 10v10h14V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        Beranda
+      </div>
+      <div class="nav-item">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M9 2h6l4 4v6a7 7 0 0 1-14 0V6l4-4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 8v4l2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+        Misi
+      </div>
+      <div class="nav-item">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 3v18h18M7 14l3-3 4 4 5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        Rapor
+      </div>
+      <div class="nav-item">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/><path d="M4 21a8 8 0 0 1 16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+        Profil
       </div>
     </div>
   </div>
@@ -571,24 +570,23 @@ body{min-height:100vh;padding:60px 20px}
         </div>
 
       </div>
-      
-      <div class="bottom-nav">
-        <div class="nav-item">
-          <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3l9 9M5 10v10h14V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          Beranda
-        </div>
-        <div class="nav-item active">
-          <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M9 2h6l4 4v6a7 7 0 0 1-14 0V6l4-4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 8v4l2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
-          Misi
-        </div>
-        <div class="nav-item">
-          <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 3v18h18M7 14l3-3 4 4 5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          Rapor
-        </div>
-        <div class="nav-item">
-          <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/><path d="M4 21a8 8 0 0 1 16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
-          Profil
-        </div>
+    </div>
+    <div class="bottom-nav">
+      <div class="nav-item">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3l9 9M5 10v10h14V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        Beranda
+      </div>
+      <div class="nav-item active">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M9 2h6l4 4v6a7 7 0 0 1-14 0V6l4-4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 8v4l2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+        Misi
+      </div>
+      <div class="nav-item">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 3v18h18M7 14l3-3 4 4 5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        Rapor
+      </div>
+      <div class="nav-item">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/><path d="M4 21a8 8 0 0 1 16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+        Profil
       </div>
     </div>
   </div>
