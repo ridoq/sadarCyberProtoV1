@@ -29,14 +29,25 @@ body{min-height:100vh;padding:60px 20px}
   box-shadow:0 1px 2px rgba(0,0,0,.04),0 30px 60px rgba(15,23,42,.12),0 10px 20px rgba(15,23,42,.06)}
 .phone-inner{width:100%;height:100%;background:var(--bg);border-radius:36px;overflow:hidden;position:relative}
 .notch{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:110px;height:28px;background:#0f172a;border-radius:16px;z-index:100}
-.screen{width:100%;height:100%;overflow-y:auto;position:relative;scrollbar-width:none;background:var(--bg)}
-.screen::-webkit-scrollbar{display:none}
-.status-bar{height:50px;padding:18px 28px 0;display:flex;justify-content:space-between;align-items:center;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;position:relative;z-index:50;color:var(--fg)}
+
+/* Fixed Status Bar & Bottom Nav */
+.status-bar{position:absolute;top:0;left:0;right:0;height:50px;padding:18px 28px 0;display:flex;justify-content:space-between;align-items:center;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;z-index:60;color:var(--fg);background:var(--bg)}
+.phone.login .status-bar{background:var(--bg-card)}
+.phone.login .screen{background:var(--bg-card)}
 .status-bar .icons{display:flex;gap:6px;align-items:center}
+
+.bottom-nav{position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:12px 20px 24px;display:flex;justify-content:space-around;align-items:center;z-index:60}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--muted-2);font-size:10px;font-weight:600;cursor:pointer}
+.nav-item.active{color:var(--primary)}
+.nav-item .nav-icon{width:22px;height:22px;display:flex;align-items:center;justify-content:center}
+
+/* Scrollable Screen */
+.screen{width:100%;height:100%;overflow-y:auto;position:relative;scrollbar-width:none;background:var(--bg);padding-top:50px}
+.screen::-webkit-scrollbar{display:none}
 .screen-content{padding:8px 20px 100px}
 
 /* ============ LOGIN ============ */
-.login-screen{min-height:100%;display:flex;flex-direction:column;padding:40px 28px 32px;position:relative;background:var(--bg-card)}
+.login-screen{min-height:100%;display:flex;flex-direction:column;padding:20px 28px 32px;position:relative}
 .login-logo{display:flex;flex-direction:column;align-items:center;margin-bottom:40px;margin-top:20px}
 .logo-mark{width:64px;height:64px;border-radius:20px;background:var(--primary);display:flex;align-items:center;justify-content:center;margin-bottom:20px;box-shadow:0 12px 32px rgba(79,70,229,.25)}
 .brand-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;letter-spacing:-.02em;margin-bottom:10px;color:var(--fg)}
@@ -47,13 +58,9 @@ body{min-height:100vh;padding:60px 20px}
 .field-label{display:block;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:var(--fg-2);margin-bottom:8px;letter-spacing:.01em}
 .field-input{width:100%;background:var(--bg-soft);border:1px solid var(--border);border-radius:12px;padding:14px 16px;color:var(--fg);font-family:'Inter',sans-serif;font-size:15px;outline:none;transition:border-color .15s}
 .field-input:focus{border-color:var(--primary);background:#fff}
-.role-toggle{display:grid;grid-template-columns:1fr 1fr;background:var(--bg-soft);border:1px solid var(--border);border-radius:12px;padding:4px;gap:4px;margin-bottom:24px}
-.role-btn{padding:11px;text-align:center;font-size:13px;font-weight:600;border-radius:8px;color:var(--muted);cursor:pointer}
-.role-btn.active{background:#fff;color:var(--primary);box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.btn-primary{width:100%;background:var(--primary);color:#fff;border:none;padding:15px;border-radius:12px;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 20px rgba(79,70,229,.2)}
-.login-footer{margin-top:auto;text-align:center;font-size:13px;color:var(--muted);padding-top:24px}
-.login-footer a{color:var(--primary);text-decoration:none;font-weight:600}
-.demo-note{margin-top:16px;padding:12px;background:var(--primary-soft);border:1px solid var(--primary-dim);border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--primary);text-align:center;letter-spacing:.03em;line-height:1.6}
+.btn-primary{width:100%;background:var(--primary);color:#fff;border:none;padding:15px;border-radius:12px;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 20px rgba(79,70,229,.2);margin-top:8px}
+.login-footer{margin-top:auto;text-align:center;font-size:12px;color:var(--muted);padding-top:24px;line-height:1.6}
+.login-footer .instansi{font-weight:700;color:var(--fg-2);letter-spacing:.02em;font-size:13px;display:block;margin-top:4px}
 
 /* ============ DASHBOARD ============ */
 .dash-header{display:flex;align-items:center;justify-content:space-between;padding:8px 0 24px}
@@ -116,11 +123,6 @@ body{min-height:100vh;padding:60px 20px}
 .leader-rank.bronze{background:#fed7aa;color:#9a3412}
 .leader-name{flex:1;font-size:13px;font-weight:600;color:var(--fg)}
 .leader-score{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--primary)}
-
-.bottom-nav{position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:12px 20px 24px;display:flex;justify-content:space-around;align-items:center;z-index:50}
-.nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--muted-2);font-size:10px;font-weight:600;cursor:pointer}
-.nav-item.active{color:var(--primary)}
-.nav-item .nav-icon{width:22px;height:22px;display:flex;align-items:center;justify-content:center}
 
 /* ============ CASE LIST (03a) ============ */
 .page-header{padding:12px 0 20px;display:flex;align-items:center;justify-content:space-between}
@@ -247,18 +249,18 @@ body{min-height:100vh;padding:60px 20px}
   <span class="line"></span>
 </div>
 
-<div class="phone">
+<div class="phone login">
   <div class="notch"></div>
   <div class="phone-inner">
-    <div class="screen">
-      <div class="status-bar">
-        <span>9:41</span>
-        <div class="icons">
-          <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><rect x="0" y="7" width="3" height="4" fill="#0f172a"/><rect x="4" y="5" width="3" height="6" fill="#0f172a"/><rect x="8" y="2" width="3" height="9" fill="#0f172a"/><rect x="12" y="0" width="3" height="11" fill="#0f172a" opacity=".4"/></svg>
-          <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M7 2c2 0 3.8.7 5.2 1.9l1-1.2C11.6 1.3 9.4.5 7 .5S2.4 1.3.8 2.7l1 1.2C3.2 2.7 5 2 7 2zm0 3c1.2 0 2.3.4 3.2 1.1l1-1.2C10 3.7 8.6 3 7 3s-3 .7-4.2 1.9l1 1.2C4.7 5.4 5.8 5 7 5zm0 3c.6 0 1.1.2 1.6.5l1-1.2C8.8 6.8 7.9 6.5 7 6.5s-1.8.3-2.6.8l1 1.2c.5-.3 1-.5 1.6-.5z" fill="#0f172a"/></svg>
-          <svg width="24" height="11" viewBox="0 0 24 11" fill="none"><rect x="0.5" y="0.5" width="20" height="10" rx="2.5" stroke="#0f172a" opacity=".4"/><rect x="2" y="2" width="16" height="7" rx="1" fill="#0f172a"/><rect x="21" y="3.5" width="2" height="4" rx="1" fill="#0f172a" opacity=".4"/></svg>
-        </div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <div class="icons">
+        <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><rect x="0" y="7" width="3" height="4" fill="#0f172a"/><rect x="4" y="5" width="3" height="6" fill="#0f172a"/><rect x="8" y="2" width="3" height="9" fill="#0f172a"/><rect x="12" y="0" width="3" height="11" fill="#0f172a" opacity=".4"/></svg>
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M7 2c2 0 3.8.7 5.2 1.9l1-1.2C11.6 1.3 9.4.5 7 .5S2.4 1.3.8 2.7l1 1.2C3.2 2.7 5 2 7 2zm0 3c1.2 0 2.3.4 3.2 1.1l1-1.2C10 3.7 8.6 3 7 3s-3 .7-4.2 1.9l1 1.2C4.7 5.4 5.8 5 7 5zm0 3c.6 0 1.1.2 1.6.5l1-1.2C8.8 6.8 7.9 6.5 7 6.5s-1.8.3-2.6.8l1 1.2c.5-.3 1-.5 1.6-.5z" fill="#0f172a"/></svg>
+        <svg width="24" height="11" viewBox="0 0 24 11" fill="none"><rect x="0.5" y="0.5" width="20" height="10" rx="2.5" stroke="#0f172a" opacity=".4"/><rect x="2" y="2" width="16" height="7" rx="1" fill="#0f172a"/><rect x="21" y="3.5" width="2" height="4" rx="1" fill="#0f172a" opacity=".4"/></svg>
       </div>
+    </div>
+    <div class="screen">
       <div class="login-screen">
         <div class="login-logo">
           <div class="logo-mark">
@@ -275,31 +277,21 @@ body{min-height:100vh;padding:60px 20px}
         <div class="login-form">
           <div class="field-group">
             <label class="field-label">ID Siswa / Email</label>
-            <input class="field-input" type="text" value="rizky.d@smkn2.sch.id" />
+            <input class="field-input" type="text" value="rizky.d@smkn2kraksaan.sch.id" />
           </div>
           <div class="field-group">
             <label class="field-label">Kata Sandi</label>
             <input class="field-input" type="password" value="••••••••••" />
           </div>
-          <div class="field-group">
-            <label class="field-label">Masuk Sebagai</label>
-            <div class="role-toggle">
-              <div class="role-btn active">Siswa</div>
-              <div class="role-btn">Guru</div>
-            </div>
-          </div>
           <button class="btn-primary">
-            Masuk &amp; Mulai Misi
+            Masuk
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </div>
         
-        <div class="demo-note">
-          DEMO AKUN SISWA<br/>rizky.d@smkn2.sch.id · *******
-        </div>
-        
         <div class="login-footer">
-          Belum punya akun? <a href="#">Daftar gratis</a>
+          Platform Resmi Digital Literacy<br/>
+          <span class="instansi">SMKN 2 KRAKSAAN</span>
         </div>
       </div>
     </div>
@@ -316,15 +308,15 @@ body{min-height:100vh;padding:60px 20px}
 <div class="phone">
   <div class="notch"></div>
   <div class="phone-inner">
-    <div class="screen">
-      <div class="status-bar">
-        <span>9:41</span>
-        <div class="icons">
-          <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><rect x="0" y="7" width="3" height="4" fill="#0f172a"/><rect x="4" y="5" width="3" height="6" fill="#0f172a"/><rect x="8" y="2" width="3" height="9" fill="#0f172a"/><rect x="12" y="0" width="3" height="11" fill="#0f172a" opacity=".4"/></svg>
-          <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M7 2c2 0 3.8.7 5.2 1.9l1-1.2C11.6 1.3 9.4.5 7 .5S2.4 1.3.8 2.7l1 1.2C3.2 2.7 5 2 7 2zm0 3c1.2 0 2.3.4 3.2 1.1l1-1.2C10 3.7 8.6 3 7 3s-3 .7-4.2 1.9l1 1.2C4.7 5.4 5.8 5 7 5zm0 3c.6 0 1.1.2 1.6.5l1-1.2C8.8 6.8 7.9 6.5 7 6.5s-1.8.3-2.6.8l1 1.2c.5-.3 1-.5 1.6-.5z" fill="#0f172a"/></svg>
-          <svg width="24" height="11" viewBox="0 0 24 11" fill="none"><rect x="0.5" y="0.5" width="20" height="10" rx="2.5" stroke="#0f172a" opacity=".4"/><rect x="2" y="2" width="16" height="7" rx="1" fill="#0f172a"/><rect x="21" y="3.5" width="2" height="4" rx="1" fill="#0f172a" opacity=".4"/></svg>
-        </div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <div class="icons">
+        <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><rect x="0" y="7" width="3" height="4" fill="#0f172a"/><rect x="4" y="5" width="3" height="6" fill="#0f172a"/><rect x="8" y="2" width="3" height="9" fill="#0f172a"/><rect x="12" y="0" width="3" height="11" fill="#0f172a" opacity=".4"/></svg>
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M7 2c2 0 3.8.7 5.2 1.9l1-1.2C11.6 1.3 9.4.5 7 .5S2.4 1.3.8 2.7l1 1.2C3.2 2.7 5 2 7 2zm0 3c1.2 0 2.3.4 3.2 1.1l1-1.2C10 3.7 8.6 3 7 3s-3 .7-4.2 1.9l1 1.2C4.7 5.4 5.8 5 7 5zm0 3c.6 0 1.1.2 1.6.5l1-1.2C8.8 6.8 7.9 6.5 7 6.5s-1.8.3-2.6.8l1 1.2c.5-.3 1-.5 1.6-.5z" fill="#0f172a"/></svg>
+        <svg width="24" height="11" viewBox="0 0 24 11" fill="none"><rect x="0.5" y="0.5" width="20" height="10" rx="2.5" stroke="#0f172a" opacity=".4"/><rect x="2" y="2" width="16" height="7" rx="1" fill="#0f172a"/><rect x="21" y="3.5" width="2" height="4" rx="1" fill="#0f172a" opacity=".4"/></svg>
       </div>
+    </div>
+    <div class="screen">
       <div class="screen-content">
         
         <div class="dash-header">
@@ -489,15 +481,15 @@ body{min-height:100vh;padding:60px 20px}
 <div class="phone">
   <div class="notch"></div>
   <div class="phone-inner">
-    <div class="screen">
-      <div class="status-bar">
-        <span>9:41</span>
-        <div class="icons">
-          <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><rect x="0" y="7" width="3" height="4" fill="#0f172a"/><rect x="4" y="5" width="3" height="6" fill="#0f172a"/><rect x="8" y="2" width="3" height="9" fill="#0f172a"/><rect x="12" y="0" width="3" height="11" fill="#0f172a" opacity=".4"/></svg>
-          <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M7 2c2 0 3.8.7 5.2 1.9l1-1.2C11.6 1.3 9.4.5 7 .5S2.4 1.3.8 2.7l1 1.2C3.2 2.7 5 2 7 2zm0 3c1.2 0 2.3.4 3.2 1.1l1-1.2C10 3.7 8.6 3 7 3s-3 .7-4.2 1.9l1 1.2C4.7 5.4 5.8 5 7 5zm0 3c.6 0 1.1.2 1.6.5l1-1.2C8.8 6.8 7.9 6.5 7 6.5s-1.8.3-2.6.8l1 1.2c.5-.3 1-.5 1.6-.5z" fill="#0f172a"/></svg>
-          <svg width="24" height="11" viewBox="0 0 24 11" fill="none"><rect x="0.5" y="0.5" width="20" height="10" rx="2.5" stroke="#0f172a" opacity=".4"/><rect x="2" y="2" width="16" height="7" rx="1" fill="#0f172a"/><rect x="21" y="3.5" width="2" height="4" rx="1" fill="#0f172a" opacity=".4"/></svg>
-        </div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <div class="icons">
+        <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><rect x="0" y="7" width="3" height="4" fill="#0f172a"/><rect x="4" y="5" width="3" height="6" fill="#0f172a"/><rect x="8" y="2" width="3" height="9" fill="#0f172a"/><rect x="12" y="0" width="3" height="11" fill="#0f172a" opacity=".4"/></svg>
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M7 2c2 0 3.8.7 5.2 1.9l1-1.2C11.6 1.3 9.4.5 7 .5S2.4 1.3.8 2.7l1 1.2C3.2 2.7 5 2 7 2zm0 3c1.2 0 2.3.4 3.2 1.1l1-1.2C10 3.7 8.6 3 7 3s-3 .7-4.2 1.9l1 1.2C4.7 5.4 5.8 5 7 5zm0 3c.6 0 1.1.2 1.6.5l1-1.2C8.8 6.8 7.9 6.5 7 6.5s-1.8.3-2.6.8l1 1.2c.5-.3 1-.5 1.6-.5z" fill="#0f172a"/></svg>
+        <svg width="24" height="11" viewBox="0 0 24 11" fill="none"><rect x="0.5" y="0.5" width="20" height="10" rx="2.5" stroke="#0f172a" opacity=".4"/><rect x="2" y="2" width="16" height="7" rx="1" fill="#0f172a"/><rect x="21" y="3.5" width="2" height="4" rx="1" fill="#0f172a" opacity=".4"/></svg>
       </div>
+    </div>
+    <div class="screen">
       <div class="screen-content">
         
         <div class="page-header">
@@ -602,15 +594,15 @@ body{min-height:100vh;padding:60px 20px}
 <div class="phone">
   <div class="notch"></div>
   <div class="phone-inner">
-    <div class="screen">
-      <div class="status-bar">
-        <span>9:41</span>
-        <div class="icons">
-          <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><rect x="0" y="7" width="3" height="4" fill="#0f172a"/><rect x="4" y="5" width="3" height="6" fill="#0f172a"/><rect x="8" y="2" width="3" height="9" fill="#0f172a"/><rect x="12" y="0" width="3" height="11" fill="#0f172a" opacity=".4"/></svg>
-          <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M7 2c2 0 3.8.7 5.2 1.9l1-1.2C11.6 1.3 9.4.5 7 .5S2.4 1.3.8 2.7l1 1.2C3.2 2.7 5 2 7 2zm0 3c1.2 0 2.3.4 3.2 1.1l1-1.2C10 3.7 8.6 3 7 3s-3 .7-4.2 1.9l1 1.2C4.7 5.4 5.8 5 7 5zm0 3c.6 0 1.1.2 1.6.5l1-1.2C8.8 6.8 7.9 6.5 7 6.5s-1.8.3-2.6.8l1 1.2c.5-.3 1-.5 1.6-.5z" fill="#0f172a"/></svg>
-          <svg width="24" height="11" viewBox="0 0 24 11" fill="none"><rect x="0.5" y="0.5" width="20" height="10" rx="2.5" stroke="#0f172a" opacity=".4"/><rect x="2" y="2" width="16" height="7" rx="1" fill="#dc2626"/><rect x="21" y="3.5" width="2" height="4" rx="1" fill="#0f172a" opacity=".4"/></svg>
-        </div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <div class="icons">
+        <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><rect x="0" y="7" width="3" height="4" fill="#0f172a"/><rect x="4" y="5" width="3" height="6" fill="#0f172a"/><rect x="8" y="2" width="3" height="9" fill="#0f172a"/><rect x="12" y="0" width="3" height="11" fill="#0f172a" opacity=".4"/></svg>
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M7 2c2 0 3.8.7 5.2 1.9l1-1.2C11.6 1.3 9.4.5 7 .5S2.4 1.3.8 2.7l1 1.2C3.2 2.7 5 2 7 2zm0 3c1.2 0 2.3.4 3.2 1.1l1-1.2C10 3.7 8.6 3 7 3s-3 .7-4.2 1.9l1 1.2C4.7 5.4 5.8 5 7 5zm0 3c.6 0 1.1.2 1.6.5l1-1.2C8.8 6.8 7.9 6.5 7 6.5s-1.8.3-2.6.8l1 1.2c.5-.3 1-.5 1.6-.5z" fill="#0f172a"/></svg>
+        <svg width="24" height="11" viewBox="0 0 24 11" fill="none"><rect x="0.5" y="0.5" width="20" height="10" rx="2.5" stroke="#0f172a" opacity=".4"/><rect x="2" y="2" width="16" height="7" rx="1" fill="#dc2626"/><rect x="21" y="3.5" width="2" height="4" rx="1" fill="#0f172a" opacity=".4"/></svg>
       </div>
+    </div>
+    <div class="screen">
       <div class="screen-content">
         
         <div class="mission-top">
@@ -755,15 +747,15 @@ body{min-height:100vh;padding:60px 20px}
 <div class="phone">
   <div class="notch"></div>
   <div class="phone-inner">
-    <div class="screen">
-      <div class="status-bar">
-        <span>9:41</span>
-        <div class="icons">
-          <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><rect x="0" y="7" width="3" height="4" fill="#0f172a"/><rect x="4" y="5" width="3" height="6" fill="#0f172a"/><rect x="8" y="2" width="3" height="9" fill="#0f172a"/><rect x="12" y="0" width="3" height="11" fill="#0f172a" opacity=".4"/></svg>
-          <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M7 2c2 0 3.8.7 5.2 1.9l1-1.2C11.6 1.3 9.4.5 7 .5S2.4 1.3.8 2.7l1 1.2C3.2 2.7 5 2 7 2zm0 3c1.2 0 2.3.4 3.2 1.1l1-1.2C10 3.7 8.6 3 7 3s-3 .7-4.2 1.9l1 1.2C4.7 5.4 5.8 5 7 5zm0 3c.6 0 1.1.2 1.6.5l1-1.2C8.8 6.8 7.9 6.5 7 6.5s-1.8.3-2.6.8l1 1.2c.5-.3 1-.5 1.6-.5z" fill="#0f172a"/></svg>
-          <svg width="24" height="11" viewBox="0 0 24 11" fill="none"><rect x="0.5" y="0.5" width="20" height="10" rx="2.5" stroke="#0f172a" opacity=".4"/><rect x="2" y="2" width="16" height="7" rx="1" fill="#0f172a"/><rect x="21" y="3.5" width="2" height="4" rx="1" fill="#0f172a" opacity=".4"/></svg>
-        </div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <div class="icons">
+        <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><rect x="0" y="7" width="3" height="4" fill="#0f172a"/><rect x="4" y="5" width="3" height="6" fill="#0f172a"/><rect x="8" y="2" width="3" height="9" fill="#0f172a"/><rect x="12" y="0" width="3" height="11" fill="#0f172a" opacity=".4"/></svg>
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M7 2c2 0 3.8.7 5.2 1.9l1-1.2C11.6 1.3 9.4.5 7 .5S2.4 1.3.8 2.7l1 1.2C3.2 2.7 5 2 7 2zm0 3c1.2 0 2.3.4 3.2 1.1l1-1.2C10 3.7 8.6 3 7 3s-3 .7-4.2 1.9l1 1.2C4.7 5.4 5.8 5 7 5zm0 3c.6 0 1.1.2 1.6.5l1-1.2C8.8 6.8 7.9 6.5 7 6.5s-1.8.3-2.6.8l1 1.2c.5-.3 1-.5 1.6-.5z" fill="#0f172a"/></svg>
+        <svg width="24" height="11" viewBox="0 0 24 11" fill="none"><rect x="0.5" y="0.5" width="20" height="10" rx="2.5" stroke="#0f172a" opacity=".4"/><rect x="2" y="2" width="16" height="7" rx="1" fill="#0f172a"/><rect x="21" y="3.5" width="2" height="4" rx="1" fill="#0f172a" opacity=".4"/></svg>
       </div>
+    </div>
+    <div class="screen">
       <div class="screen-content">
         
         <div class="settings-header">
@@ -775,7 +767,7 @@ body{min-height:100vh;padding:60px 20px}
           <div class="profile-avatar">RD</div>
           <div class="profile-info">
             <div class="name">Rizky Damar</div>
-            <div class="email">rizky.d@smkn2.sch.id</div>
+            <div class="email">rizky.d@smkn2kraksaan.sch.id</div>
             <span class="profile-rank">
               <svg width="8" height="8" viewBox="0 0 24 24" fill="none"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7l3-7z" fill="currentColor"/></svg>
               DETEKTIF RPL — LVL 7
@@ -946,6 +938,24 @@ body{min-height:100vh;padding:60px 20px}
           © 2024 · Made for Gen Z Critical Thinkers
         </div>
         
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <div class="nav-item">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3l9 9M5 10v10h14V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        Beranda
+      </div>
+      <div class="nav-item">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M9 2h6l4 4v6a7 7 0 0 1-14 0V6l4-4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 8v4l2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+        Misi
+      </div>
+      <div class="nav-item">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 3v18h18M7 14l3-3 4 4 5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        Rapor
+      </div>
+      <div class="nav-item active">
+        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/><path d="M4 21a8 8 0 0 1 16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+        Profil
       </div>
     </div>
   </div>
